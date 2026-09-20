@@ -38,7 +38,7 @@ export function ChatHeader({
   const [deleteMenuOpen, setDeleteMenuOpen] = useState(false);
   // Sahiti logs in -> "Chatting with Ajazzz"
   // Ajazzz logs in -> "Chatting with Sahiti"
-  const chattingHeading = `Chatting with ${otherUser.name}`;
+  const chattingHeading = otherUser.name;
 
   const formatLastSeen = (isoString?: string) => {
     if (!isoString) return 'Offline';
