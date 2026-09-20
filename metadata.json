@@ -1,0 +1,7 @@
+{
+  "name": "Virat & Hardhik Private Messenger",
+  "description": "Private real-time communication portal for Virat and Hardhik with secure messaging, file sharing, and WebRTC calls.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
