@@ -11,7 +11,7 @@ interface MediaGalleryModalProps {
 export function MediaGalleryModal({ messages, onClose, darkMode }: MediaGalleryModalProps) {
   const [activeTab, setActiveTab] = useState<'photos' | 'videos' | 'documents' | 'audio'>('photos');
 
-  const mediaMessages = messages.filter(m => m.fileUrl && !m.deletedAt);
+  const mediaMessages = messages.filter(m => m.fileUrl);
 
   const photos = mediaMessages.filter(m => m.type === 'image');
   const videos = mediaMessages.filter(m => m.type === 'video');

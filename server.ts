@@ -66,8 +66,8 @@ interface Message {
 interface DB {
   messages: Message[];
   status: {
-    sahiti: { online: boolean; lastSeen: string };
-    ajazzz: { online: boolean; lastSeen: string };
+    virat: { online: boolean; lastSeen: string };
+    hardhik: { online: boolean; lastSeen: string };
   };
 }
 
@@ -75,8 +75,8 @@ function getDB(): DB {
   let db: DB = {
     messages: [],
     status: {
-      sahiti: { online: false, lastSeen: new Date().toISOString() },
-      ajazzz: { online: false, lastSeen: new Date().toISOString() }
+      virat: { online: false, lastSeen: new Date().toISOString() },
+      hardhik: { online: false, lastSeen: new Date().toISOString() }
     }
   };
   if (fs.existsSync(dbFile)) {
@@ -85,8 +85,8 @@ function getDB(): DB {
       if (parsed) {
         if (Array.isArray(parsed.messages)) db.messages = parsed.messages;
         if (parsed.status) {
-          if (parsed.status.sahiti) db.status.sahiti = parsed.status.sahiti;
-          if (parsed.status.ajazzz) db.status.ajazzz = parsed.status.ajazzz;
+          if (parsed.status.virat) db.status.virat = parsed.status.virat;
+          if (parsed.status.hardhik) db.status.hardhik = parsed.status.hardhik;
         }
       }
     } catch (e) {
@@ -100,19 +100,19 @@ function saveDB(data: DB) {
   fs.writeFileSync(dbFile, JSON.stringify(data, null, 2));
 }
 
-// Users definition (ONLY TWO USERS: Sahiti 0310 and Ajazzz 0303)
+// Users definition (ONLY TWO USERS: Virat 0310 and Hardhik 0303)
 const USERS: Record<string, { id: string; name: string; code: string; avatar: string }> = {
   "0310": {
-    id: "sahiti",
-    name: "Sahiti",
+    id: "virat",
+    name: "Virat",
     code: "0310",
-    avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
   },
   "0303": {
-    id: "ajazzz",
-    name: "Ajazzz",
+    id: "hardhik",
+    name: "Hardhik",
     code: "0303",
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80"
   }
 };
 
@@ -155,16 +155,16 @@ io.on("connection", (socket) => {
   console.log("Client connected:", socket.id);
 
   socket.on("join", (userId: string) => {
-    if (userId !== "sahiti" && userId !== "ajazzz") return;
+    if (userId !== "virat" && userId !== "hardhik") return;
     activeSockets[userId] = socket.id;
     socket.join("private_room");
 
     const db = getDB();
-    if (!db.status) db.status = { sahiti: { online: false, lastSeen: new Date().toISOString() }, ajazzz: { online: false, lastSeen: new Date().toISOString() } };
-    if (!db.status[userId as 'sahiti' | 'ajazzz']) {
-      db.status[userId as 'sahiti' | 'ajazzz'] = { online: false, lastSeen: new Date().toISOString() };
+    if (!db.status) db.status = { virat: { online: false, lastSeen: new Date().toISOString() }, hardhik: { online: false, lastSeen: new Date().toISOString() } };
+    if (!db.status[userId as 'virat' | 'hardhik']) {
+      db.status[userId as 'virat' | 'hardhik'] = { online: false, lastSeen: new Date().toISOString() };
     }
-    db.status[userId as 'sahiti' | 'ajazzz'].online = true;
+    db.status[userId as 'virat' | 'hardhik'].online = true;
     saveDB(db);
 
     io.to("private_room").emit("status_update", db.status);
@@ -229,8 +229,6 @@ io.on("connection", (socket) => {
     if (msg && msg.sender === userId) {
       msg.deletedAt = new Date().toISOString();
       msg.content = "This message was deleted";
-      msg.fileUrl = undefined;
-      msg.fileName = undefined;
       saveDB(db);
       io.to("private_room").emit("message_deleted", { messageId, deletedAt: msg.deletedAt });
     }
@@ -354,14 +352,14 @@ io.on("connection", (socket) => {
         break;
       }
     }
-    if (disconnectedUser && (disconnectedUser === 'sahiti' || disconnectedUser === 'ajazzz')) {
+    if (disconnectedUser && (disconnectedUser === 'virat' || disconnectedUser === 'hardhik')) {
       const db = getDB();
-      if (!db.status) db.status = { sahiti: { online: false, lastSeen: new Date().toISOString() }, ajazzz: { online: false, lastSeen: new Date().toISOString() } };
-      if (!db.status[disconnectedUser as 'sahiti' | 'ajazzz']) {
-        db.status[disconnectedUser as 'sahiti' | 'ajazzz'] = { online: false, lastSeen: new Date().toISOString() };
+      if (!db.status) db.status = { virat: { online: false, lastSeen: new Date().toISOString() }, hardhik: { online: false, lastSeen: new Date().toISOString() } };
+      if (!db.status[disconnectedUser as 'virat' | 'hardhik']) {
+        db.status[disconnectedUser as 'virat' | 'hardhik'] = { online: false, lastSeen: new Date().toISOString() };
       }
-      db.status[disconnectedUser as 'sahiti' | 'ajazzz'].online = false;
-      db.status[disconnectedUser as 'sahiti' | 'ajazzz'].lastSeen = new Date().toISOString();
+      db.status[disconnectedUser as 'virat' | 'hardhik'].online = false;
+      db.status[disconnectedUser as 'virat' | 'hardhik'].lastSeen = new Date().toISOString();
       saveDB(db);
       io.to("private_room").emit("status_update", db.status);
     }

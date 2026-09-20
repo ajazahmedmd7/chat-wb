@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Phone, Video, Moon, Sun, FolderOpen, Search, Shield, CheckCircle2, Clock, Pin, Trash2, ChevronDown, Ghost } from 'lucide-react';
+import { Phone, Video, Moon, Sun, FolderOpen, Search, Shield, Clock, Pin, Trash2, ChevronDown, Ghost, LogOut } from 'lucide-react';
 import { User, UserStatus } from '../types';
 
 interface ChatHeaderProps {
@@ -17,6 +17,7 @@ interface ChatHeaderProps {
   onClearChatTimed: (hours: number | 'all') => void;
   ghostMode: boolean;
   onToggleGhostMode: () => void;
+  onLogout: () => void;
 }
 
 export function ChatHeader({
@@ -33,7 +34,8 @@ export function ChatHeader({
   searchOpen,
   onClearChatTimed,
   ghostMode,
-  onToggleGhostMode
+  onToggleGhostMode,
+  onLogout
 }: ChatHeaderProps) {
   const [deleteMenuOpen, setDeleteMenuOpen] = useState(false);
   // Sahiti logs in -> "Chatting with Ajazzz"
@@ -212,6 +214,14 @@ export function ChatHeader({
           }`}
         >
           {darkMode ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+        </button>
+
+        <button
+          onClick={onLogout}
+          title="Log out (Virat & Hardhik)"
+          className="p-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 transition-colors"
+        >
+          <LogOut className="w-5 h-5" />
         </button>
       </div>
     </header>

@@ -1,5 +1,5 @@
 export interface User {
-  id: 'sahiti' | 'ajazzz';
+  id: 'virat' | 'hardhik';
   name: string;
   avatar: string;
 }

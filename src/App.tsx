@@ -10,29 +10,29 @@ import { PinnedMessagesModal } from './components/PinnedMessagesModal';
 import { CallModal } from './components/CallModal';
 
 const USERS_MAP: Record<string, User> = {
-  sahiti: {
-    id: 'sahiti',
-    name: 'Sahiti',
-    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
-  },
-  ajazzz: {
-    id: 'ajazzz',
-    name: 'Ajazzz',
+  virat: {
+    id: 'virat',
+    name: 'Virat',
     avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'
+  },
+  hardhik: {
+    id: 'hardhik',
+    name: 'Hardhik',
+    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80'
   }
 };
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('sahiti_ajazzz_user');
+    const saved = localStorage.getItem('virat_hardhik_user');
     return saved ? JSON.parse(saved) : null;
   });
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [statuses, setStatuses] = useState<Record<string, UserStatus>>({
-    sahiti: { online: false, lastSeen: new Date().toISOString() },
-    ajazzz: { online: false, lastSeen: new Date().toISOString() }
+    virat: { online: false, lastSeen: new Date().toISOString() },
+    hardhik: { online: false, lastSeen: new Date().toISOString() }
   });
 
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -45,7 +45,13 @@ export default function App() {
   const [otherUserTyping, setOtherUserTyping] = useState(false);
   const [ghostMode, setGhostMode] = useState(false);
 
-  const otherUser = currentUser?.id === 'sahiti' ? USERS_MAP['ajazzz'] : USERS_MAP['sahiti'];
+  const otherUser = currentUser?.id === 'virat' ? USERS_MAP['hardhik'] : USERS_MAP['virat'];
+
+  const handleLogout = () => {
+    if (socket) socket.disconnect();
+    setCurrentUser(null);
+    localStorage.removeItem('virat_hardhik_user');
+  };
 
   const handleToggleGhostMode = () => {
     if (ghostMode) {
@@ -73,7 +79,7 @@ export default function App() {
   useEffect(() => {
     if (!currentUser) return;
 
-    localStorage.setItem('sahiti_ajazzz_user', JSON.stringify(currentUser));
+    localStorage.setItem('virat_hardhik_user', JSON.stringify(currentUser));
 
     const newSocket = io();
     setSocket(newSocket);
@@ -209,7 +215,7 @@ export default function App() {
   const pinnedCount = messages.filter(m => m.pinned && !m.deletedAt).length;
 
   return (
-    <div className={`fixed inset-0 flex flex-col overflow-hidden font-sans ${darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-100 text-slate-900'}`}>
+    <div className={`w-full h-[100dvh] flex flex-col overflow-hidden font-sans select-none ${darkMode ? 'bg-slate-950 text-slate-100' : 'bg-slate-100 text-slate-900'}`}>
       <ChatHeader
         currentUser={currentUser}
         otherUser={otherUser}
@@ -225,6 +231,7 @@ export default function App() {
         onClearChatTimed={handleClearChatTimed}
         ghostMode={ghostMode}
         onToggleGhostMode={handleToggleGhostMode}
+        onLogout={handleLogout}
       />
 
       {searchOpen && (

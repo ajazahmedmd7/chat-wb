@@ -243,7 +243,13 @@ export function MessageList({
                   )}
 
                   <p className={`text-sm whitespace-pre-wrap break-words leading-relaxed ${msg.deletedAt ? 'italic opacity-60' : ''}`}>
-                    {highlightMatch(msg.content, searchQuery)}
+                    {msg.type === 'image' ? `[Photo: ${msg.fileName || 'image'}]` :
+                     msg.type === 'pdf' ? `[PDF Document: ${msg.fileName || 'document.pdf'}]` :
+                     msg.type === 'document' ? `[Document: ${msg.fileName || 'file'}]` :
+                     msg.type === 'video' ? `[Video: ${msg.fileName || 'video'}]` :
+                     msg.type === 'audio' ? `[Voice Note]` :
+                     msg.content.startsWith('http') || msg.content.startsWith('/uploads') ? `[Shared File: ${msg.fileName || 'attachment'}]` :
+                     highlightMatch(msg.content, searchQuery)}
                   </p>
 
                   {/* Metadata: timestamp, edited, read receipt */}
