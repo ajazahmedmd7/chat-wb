@@ -32,7 +32,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
       if (data.success && data.user) {
         onLogin(data.user);
       } else {
-        setError('Access Denied. Invalid passcode. Only Virat (0310) and Hardhik (0303) are authorized.');
+        setError('Access Denied. Invalid security code.');
       }
     } catch (err) {
       setError('Connection error. Please try again.');
@@ -54,7 +54,7 @@ export function LoginScreen({ onLogin }: LoginScreenProps) {
           </div>
           <h1 className="text-2xl font-semibold text-white tracking-tight">Private Secure Portal</h1>
           <p className="text-slate-400 text-sm mt-1 flex items-center gap-1.5 justify-center">
-            <ShieldCheck className="w-4 h-4 text-emerald-400" /> Virat & Hardhik Encrypted Channel
+            <ShieldCheck className="w-4 h-4 text-emerald-400" /> Sahiti & Ajazzz Encrypted Channel
           </p>
         </div>
 

@@ -1,7 +1,6 @@
 export interface User {
-  id: 'virat' | 'hardhik';
+  id: 'sahiti' | 'ajazzz';
   name: string;
-  code: string;
   avatar: string;
 }
 

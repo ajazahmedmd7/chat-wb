@@ -10,31 +10,29 @@ import { PinnedMessagesModal } from './components/PinnedMessagesModal';
 import { CallModal } from './components/CallModal';
 
 const USERS_MAP: Record<string, User> = {
-  virat: {
-    id: 'virat',
-    name: 'Virat',
-    code: '0310',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'
+  sahiti: {
+    id: 'sahiti',
+    name: 'Sahiti',
+    avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80'
   },
-  hardhik: {
-    id: 'hardhik',
-    name: 'Hardhik',
-    code: '0303',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80'
+  ajazzz: {
+    id: 'ajazzz',
+    name: 'Ajazzz',
+    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80'
   }
 };
 
 export default function App() {
   const [currentUser, setCurrentUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem('virat_hardhik_user');
+    const saved = localStorage.getItem('sahiti_ajazzz_user');
     return saved ? JSON.parse(saved) : null;
   });
 
   const [socket, setSocket] = useState<Socket | null>(null);
   const [messages, setMessages] = useState<Message[]>([]);
   const [statuses, setStatuses] = useState<Record<string, UserStatus>>({
-    virat: { online: false, lastSeen: new Date().toISOString() },
-    hardhik: { online: false, lastSeen: new Date().toISOString() }
+    sahiti: { online: false, lastSeen: new Date().toISOString() },
+    ajazzz: { online: false, lastSeen: new Date().toISOString() }
   });
 
   const [darkMode, setDarkMode] = useState<boolean>(false);
@@ -47,7 +45,7 @@ export default function App() {
   const [otherUserTyping, setOtherUserTyping] = useState(false);
   const [ghostMode, setGhostMode] = useState(false);
 
-  const otherUser = currentUser?.id === 'virat' ? USERS_MAP['hardhik'] : USERS_MAP['virat'];
+  const otherUser = currentUser?.id === 'sahiti' ? USERS_MAP['ajazzz'] : USERS_MAP['sahiti'];
 
   const handleToggleGhostMode = () => {
     if (ghostMode) {
@@ -75,7 +73,7 @@ export default function App() {
   useEffect(() => {
     if (!currentUser) return;
 
-    localStorage.setItem('virat_hardhik_user', JSON.stringify(currentUser));
+    localStorage.setItem('sahiti_ajazzz_user', JSON.stringify(currentUser));
 
     const newSocket = io();
     setSocket(newSocket);
